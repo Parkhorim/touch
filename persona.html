@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI･디지털 기반 학생 맞춤형 성장 지원 - 페르소나 카드 v2.1</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f1f5f9;
+        }
+        .card-shadow {
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .card-shadow:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: #94a3b8;
+        }
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+            box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
+        }
+        /* Custom Scrollbar for Modal */
+        .custom-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .custom-scroll::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scroll::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto mb-10 text-center">
+        <!-- 수정됨: 상단 배너 텍스트 -->
+        <div class="inline-block px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm font-bold mb-3">2025-2026 터치교사단(정보교육학회) 자료</div>
+        <h1 class="text-3xl md:text-5xl font-black text-slate-800 mb-4 tracking-tight">
+            <span class="text-blue-600">데이터로 읽는</span> 우리 반 아이들
+        </h1>
+        <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">
+            12가지 학생 페르소나 카드를 통해 <strong>다각적 데이터(로그, 관찰, 상호작용)</strong>를 분석하고,<br>
+            <span class="bg-yellow-100 px-1 font-bold text-slate-700">최적의 AI 도구</span>와 <span class="bg-yellow-100 px-1 font-bold text-slate-700">휴먼 터치 전략</span>을 매칭해보세요.
+        </p>
+    </header>
+
+    <!-- Filter Buttons -->
+    <div class="sticky top-2 z-40 bg-slate-100/90 backdrop-blur-sm py-4 mb-4">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-2">
+            <button onclick="filterCards('all')" class="filter-btn active px-5 py-2 rounded-full border border-slate-300 bg-white text-slate-600 font-bold hover:bg-slate-50 transition text-sm md:text-base">전체 (12)</button>
+            <button onclick="filterCards('type-a')" class="filter-btn px-5 py-2 rounded-full border border-blue-200 bg-white text-blue-600 font-bold hover:bg-blue-50 transition text-sm md:text-base">A. 학습/인지 (5)</button>
+            <button onclick="filterCards('type-b')" class="filter-btn px-5 py-2 rounded-full border border-emerald-200 bg-white text-emerald-600 font-bold hover:bg-emerald-50 transition text-sm md:text-base">B. 관계/태도 (3)</button>
+            <button onclick="filterCards('type-c')" class="filter-btn px-5 py-2 rounded-full border border-rose-200 bg-white text-rose-600 font-bold hover:bg-rose-50 transition text-sm md:text-base">C. 정서/기술 (4)</button>
+        </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="card-grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-20">
+        
+        <!-- Type A-1: 무기력한 관찰자 -->
+        <div class="card type-a bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-blue-50 to-white p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-blue-600 bg-blue-100 px-2 py-0.5 rounded tracking-wide">TYPE A-1</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">무기력한 관찰자</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm border border-blue-50">
+                    <i class="fa-solid fa-eye text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#수학기초부족</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#자존감저하</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">진단평가</span> <span class="font-bold text-red-600 bg-red-50 px-1 rounded">하위 20%</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">문제 풀이 시간</span> <span class="font-bold">5분 미만 (포기)</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">힌트 버튼 클릭</span> <span class="font-bold text-slate-400">0회 (시도X)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨: Teacher's Note 타이틀 및 기본 글꼴 적용 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "틀릴까 봐 아예 시작을 안 해요. '모르겠어요'가 습관이 되었습니다."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('1')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type A-2: 초반 과열 방전형 -->
+        <div class="card type-a bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-blue-50 to-white p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-blue-600 bg-blue-100 px-2 py-0.5 rounded tracking-wide">TYPE A-2</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">초반 과열 방전형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm border border-blue-50">
+                    <i class="fa-solid fa-battery-quarter text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#지구력부족</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#용두사미</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">시작 10분 활동량</span> <span class="font-bold text-blue-600 bg-blue-50 px-1 rounded">상위 10%</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">후반부 활동량</span> <span class="font-bold text-red-600 bg-red-50 px-1 rounded">급격한 하락</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">화면 전환 횟수</span> <span class="font-bold">후반부 20회↑</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "처음엔 눈이 초롱초롱한데, 심화 과제만 나오면 엎드리거나 딴짓을 해요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('2')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type A-3: 게이미피케이션 몰입형 -->
+        <div class="card type-a bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-blue-50 to-white p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-blue-600 bg-blue-100 px-2 py-0.5 rounded tracking-wide">TYPE A-3</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">게임 몰입형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm border border-blue-50">
+                    <i class="fa-solid fa-trophy text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#보상의존</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#SpeedRun</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">배지/포인트</span> <span class="font-bold text-yellow-600 bg-yellow-50 px-1 rounded">학급 1위</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">텍스트 체류 시간</span> <span class="font-bold text-red-600">3초 미만</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">오답 재시도율</span> <span class="font-bold">낮음 (바로 넘김)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "내용은 안 읽고 버튼만 눌러요. '다 깼다!'고 외치지만 물어보면 몰라요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('3')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type A-4: AI 의존형 -->
+        <div class="card type-a bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-blue-50 to-white p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-blue-600 bg-blue-100 px-2 py-0.5 rounded tracking-wide">TYPE A-4</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">AI 의존형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm border border-blue-50">
+                    <i class="fa-solid fa-robot text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#Copy&Paste</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#사고력저하</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">과제 문장 수준</span> <span class="font-bold text-blue-600">전문가급</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">오프라인 작문</span> <span class="font-bold text-red-600 bg-red-50 px-1 rounded">수행 불가</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">입력 방식</span> <span class="font-bold">대부분 '붙여넣기'</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "GPT 답변을 그대로 긁어옵니다. '이 단어가 무슨 뜻이니?' 물으면 당황해요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('4')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type A-5: 맥락 없는 탐구자 (NEW) -->
+        <div class="card type-a bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full ring-2 ring-blue-100">
+            <div class="bg-gradient-to-r from-blue-50 to-white p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-blue-600 bg-blue-100 px-2 py-0.5 rounded tracking-wide">TYPE A-5 (NEW)</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">질문 폭격기</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm border border-blue-50">
+                    <i class="fa-solid fa-question text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#과잉호기심</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#수업단절</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">수업 중 발언/질문</span> <span class="font-bold text-blue-600">상위 1% (빈번)</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">검색 키워드</span> <span class="font-bold">주제와 무관한 심화어</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">진도 달성률</span> <span class="font-bold text-slate-500">낮음 (딴길로 샘)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "호기심은 좋은데 '근데 만약에...'라며 수업 흐름을 자꾸 끊어요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('11')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-blue-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type B-1: 관계 지향 산만형 -->
+        <div class="card type-b bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-emerald-50 to-white p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded tracking-wide">TYPE B-1</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">관계 지향 산만형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm border border-emerald-50">
+                    <i class="fa-solid fa-comments text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#투머치토커</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#분위기메이커</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">채팅/댓글 수</span> <span class="font-bold text-emerald-600 bg-emerald-50 px-1 rounded">압도적 1위</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">개인 과제 시간</span> <span class="font-bold text-red-600">미달</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">협업 도구 기여도</span> <span class="font-bold">높음 (반응 위주)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "친구 반응 살피느라 공부를 못해요. 채팅창 도배의 주범입니다."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('5')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-emerald-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type B-2: 고립된 우등생 -->
+        <div class="card type-b bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-emerald-50 to-white p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded tracking-wide">TYPE B-2</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">고립된 우등생</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm border border-emerald-50">
+                    <i class="fa-solid fa-user-lock text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#협업거부</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#독불장군</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">개인 성취도</span> <span class="font-bold text-emerald-600">전과목 만점</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">동료 평가 점수</span> <span class="font-bold text-red-600 bg-red-50 px-1 rounded">최하위</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">공동 편집 기여</span> <span class="font-bold">삭제/수정 독점</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "'제가 다 할게요'라며 남의 글을 지워버려요. 조별 활동 때마다 민원이 들어옵니다."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('6')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-emerald-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type B-3: 보이지 않는 중위권 -->
+        <div class="card type-b bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-emerald-50 to-white p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded tracking-wide">TYPE B-3</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">보이지 않는 아이</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm border border-emerald-50">
+                    <i class="fa-solid fa-ghost text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#무색무취</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#관심필요</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">성적/과제물</span> <span class="font-bold text-slate-600">완벽한 평균</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">교사 상담/메모</span> <span class="font-bold text-slate-400">기록 없음</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">발표/질문 횟수</span> <span class="font-bold text-slate-400">0회</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "사고도 안 치고, 아주 잘하지도 않아서... 솔직히 기억에 잘 안 남아요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('7')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-emerald-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type C-1: 디지털 거부형 -->
+        <div class="card type-c bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-rose-50 to-white p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-rose-600 bg-rose-100 px-2 py-0.5 rounded tracking-wide">TYPE C-1</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">디지털 거부형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm border border-rose-50">
+                    <i class="fa-solid fa-book text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#아날로그선호</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#기계치</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">기기 스크린타임</span> <span class="font-bold text-red-600">0에 수렴</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">지필 평가 점수</span> <span class="font-bold text-blue-600">상위권</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">디지털 리터러시</span> <span class="font-bold">기초 미달</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "태블릿만 들면 얼어버려요. '종이로 하면 안 돼요?'라고 매번 묻습니다."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('8')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-rose-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type C-2: 완벽주의 지연형 -->
+        <div class="card type-c bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-rose-50 to-white p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-rose-600 bg-rose-100 px-2 py-0.5 rounded tracking-wide">TYPE C-2</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">완벽주의 지연형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm border border-rose-50">
+                    <i class="fa-solid fa-eraser text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#강박증</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#제출지연</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">임시 저장 횟수</span> <span class="font-bold text-rose-600">50회 이상</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">최종 제출 시각</span> <span class="font-bold">마감 1분 전/지각</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">백스페이스 키 입력</span> <span class="font-bold">매우 빈번</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "썼다 지웠다를 무한 반복해요. 퀄리티는 좋은데 제시간에 못 냅니다."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('9')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-rose-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type C-3: 정서적 불안형 -->
+        <div class="card type-c bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full">
+            <div class="bg-gradient-to-r from-rose-50 to-white p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-rose-600 bg-rose-100 px-2 py-0.5 rounded tracking-wide">TYPE C-3</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">정서적 불안형</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm border border-rose-50">
+                    <i class="fa-solid fa-heart-crack text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#감정기복</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#가정/교우문제</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">감정 출석부</span> <span class="font-bold text-rose-600 bg-rose-50 px-1 rounded">'우울/화남' 빈도↑</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">보건실 방문</span> <span class="font-bold">주 3회 이상</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">학습 불참 시간</span> <span class="font-bold">불규칙적 (엎드림)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "오늘 기분 어때? 가 먼저입니다. 작은 자극에도 예민하게 반응해요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('10')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-rose-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+        <!-- Type C-4: 디지털 딴짓형 (NEW) -->
+        <div class="card type-c bg-white rounded-xl overflow-hidden card-shadow border border-slate-200 flex flex-col h-full ring-2 ring-rose-100">
+            <div class="bg-gradient-to-r from-rose-50 to-white p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-[10px] font-extrabold text-rose-600 bg-rose-100 px-2 py-0.5 rounded tracking-wide">TYPE C-4 (NEW)</span>
+                    <h3 class="text-lg font-bold text-slate-800 mt-1">디지털 창작자</h3>
+                </div>
+                <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm border border-rose-50">
+                    <i class="fa-solid fa-clapperboard text-sm"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow flex flex-col gap-4">
+                <div class="flex gap-1 flex-wrap">
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#딴짓대장</span>
+                    <span class="bg-slate-100 text-slate-500 text-[11px] px-2 py-1 rounded font-medium">#금손능력자</span>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-2 tracking-wider">DATA EVIDENCE</p>
+                    <ul class="text-sm text-slate-700 space-y-2">
+                        <li class="flex justify-between items-center"><span class="text-slate-500">영상/편집 앱 사용</span> <span class="font-bold text-rose-600">압도적 1위</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">멀티미디어 과제</span> <span class="font-bold text-blue-600 bg-blue-50 px-1 rounded">전문가급 퀄리티</span></li>
+                        <li class="flex justify-between items-center"><span class="text-slate-500">타이핑 속도</span> <span class="font-bold">매우 빠름 (실시간)</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <!-- 수정됨 -->
+                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1 tracking-wider">TEACHER'S NOTE</p>
+                    <p class="text-sm text-slate-600 leading-relaxed">
+                        "수업 중에 몰래 유튜브 보거나 영상 편집해요. 근데 기술은 저보다 좋아요."
+                    </p>
+                </div>
+            </div>
+            <button onclick="showDetail('12')" class="w-full py-3 bg-slate-50 border-t border-slate-100 text-slate-600 font-bold text-xs hover:bg-rose-600 hover:text-white transition uppercase tracking-wider">
+                성장 지원 솔루션 보기 <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+
+    </div>
+
+    <!-- Modal for Solution Guide -->
+    <div id="modal" class="fixed inset-0 bg-black/60 hidden flex items-center justify-center z-50 p-4 backdrop-blur-sm transition-opacity duration-300">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl transform transition-all flex flex-col">
+            <!-- Modal Header -->
+            <div class="bg-slate-50 px-6 py-5 border-b border-slate-100 flex justify-between items-center sticky top-0 z-10">
+                <h3 id="modal-title" class="text-xl font-bold text-slate-800">처방 가이드</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-200 transition">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <!-- Modal Content (Scrollable) -->
+            <div id="modal-content" class="p-6 overflow-y-auto custom-scroll space-y-6">
+                <!-- Dynamic Content Here -->
+            </div>
+
+            <!-- Modal Footer -->
+            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end">
+                <button onclick="closeModal()" class="px-5 py-2.5 bg-slate-800 text-white rounded-lg hover:bg-slate-700 font-bold transition shadow-lg text-sm">확인 및 닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for Solutions
+        const solutions = {
+            '1': {
+                title: '무기력한 관찰자(수학 포기형) 처방',
+                prescription: '난이도 조절(Scaffolding) & 성공 경험 축적',
+                tools: 'AI 수학 튜터(콴다/매쓰홀릭), 기초 연산 앱',
+                guide: '학습 결손을 메우기 위해 학년과 상관없는 기초 단계부터 AI 코스웨어로 시작하세요. "모르겠어요" 대신 힌트 버튼을 누르도록 유도하고, 아주 작은 문제라도 맞히는 즉각적인 성공 경험을 제공하여 자존감을 높여야 합니다.'
+            },
+            '2': {
+                title: '초반 과열 방전형을 위한 처방',
+                prescription: '호흡 조절 & 마이크로 러닝',
+                tools: '타이머 도구, 짧은 영상 클립(Edpuzzle)',
+                guide: '긴 과제를 짧은 단위(5~10분)로 쪼개어 제시(Chunking)하세요. "10분 집중 후 2분 휴식"과 같은 구체적인 루틴을 디지털 타이머로 시각화하여 제공하면 좋습니다. 후반부 집중 시 추가 보상을 제공하세요.'
+            },
+            '3': {
+                title: '게임 몰입형을 위한 처방',
+                prescription: '과정 중심 보상 & 성찰',
+                tools: '디지털 학습 일지, 배지 부여 기준 변경',
+                guide: '단순 결과(정답)가 아닌 과정(오답 노트 작성, 질문 횟수, 요약하기)에 포인트를 부여하세요. 빠르게 끝내는 것보다 내용을 친구에게 설명하는 퀘스트를 부여해야 합니다.'
+            },
+            '4': {
+                title: 'AI 의존형을 위한 처방',
+                prescription: '비판적 사고 & 질문 생성',
+                tools: 'ChatGPT, 뤼튼 (역질문 활용)',
+                guide: '"AI의 답변에서 틀린 점 3가지를 찾으시오" 또는 "이 답변에 대한 추가 질문을 만드시오"와 같이 AI를 결과물이 아닌 사고의 파트너로 활용하는 과제를 제시하세요. 구술 평가를 병행하면 좋습니다.'
+            },
+            '5': {
+                title: '관계 지향 산만형을 위한 처방',
+                prescription: '사회적 에너지의 학습적 전환',
+                tools: 'Padlet (상호 피드백), FigJam',
+                guide: '잡담을 학습 토론으로 유도하세요. 친구들의 의견에 댓글을 달거나, 조별 프로젝트의 발표자(Speaker) 또는 기록자 역할을 부여하여 소통 욕구를 학습 기여로 전환시킵니다.'
+            },
+            '6': {
+                title: '고립된 우등생을 위한 처방',
+                prescription: '협업의 가치 인식 & 리더십',
+                tools: '공동 편집 문서 (Google Docs), 멘토링 매칭',
+                guide: '지식을 나누는 것이 자신의 메타인지에 도움이 됨을 인식시킵니다. "가르치기(Teaching)" 역할을 부여하고, 팀의 성과가 개인의 평가에 연동되도록 설계하세요.'
+            },
+            '7': {
+                title: '보이지 않는 아이를 위한 처방',
+                prescription: '데이터 기반 관심 표현 & 진로 탐색',
+                tools: 'AI 진로 진단 도구, 개인화 대시보드',
+                guide: '교사가 먼저 데이터(로그)를 언급하며 다가가세요. "지난번보다 접속 시간이 5분 늘었네?"와 같은 사소한 데이터 기반 관심이 시작입니다. 자신의 흥미를 찾을 수 있는 다양한 진단 도구를 추천하세요.'
+            },
+            '8': {
+                title: '디지털 거부형을 위한 처방',
+                prescription: '블렌디드 & 디지로그(Digilog)',
+                tools: 'OCR 펜, 종이 질감 필름, 전자 칠판',
+                guide: '디지털을 강요하지 말고, 아날로그 활동을 디지털로 쉽게 변환하는 경험(손글씨를 폰트로 변환, 그림을 3D로 변환 등)부터 시작하세요. 기기 조작보다는 콘텐츠 자체에 흥미를 느끼게 해야 합니다.'
+            },
+            '9': {
+                title: '완벽주의 지연형을 위한 처방',
+                prescription: '초안의 허용 & 과정 공유',
+                tools: 'Notion (히스토리 기능), 임시저장 의무화',
+                guide: '완성본이 아닌 "중간 과정"을 제출하게 하고 점수를 부여하세요. "망친 초안(Shitty First Draft)"을 쓰는 시간을 수업 중에 강제로 배정하여 완벽주의의 압박을 덜어줍니다.'
+            },
+            '10': {
+                title: '정서적 불안형을 위한 처방',
+                prescription: '정서 케어 & 유연한 학습',
+                tools: '마음 챙김 앱, 감정 출석부, 익명 상담방',
+                guide: '학습보다는 정서 안정이 우선입니다. 매일 감정 상태를 체크하고, 상태가 좋지 않을 때는 학습량을 조절해주는 유연함을 보여주세요. 익명으로 고민을 털어놓을 창구가 필요합니다.'
+            },
+            '11': {
+                title: '질문 폭격기(탐구형) 처방',
+                prescription: '질문의 구조화 & 탐구 프로젝트',
+                tools: '질문 게시판(Sli.do), AI 챗봇',
+                guide: '수업 흐름을 끊는 질문은 "질문 주차장(Question Parking Lot)" 게시판에 남기게 하세요. 궁금한 점을 AI에게 먼저 물어보고 그 결과를 정리해서 발표하게 하면 심도 있는 탐구가 가능합니다.'
+            },
+            '12': {
+                title: '디지털 창작자(딴짓형) 처방',
+                prescription: '재능의 양지화 & 제작자 역할',
+                tools: 'Canva, Vrew, 메타버스 제작 도구',
+                guide: '딴짓을 막는 대신 수업 내용을 영상이나 포스터로 만드는 "공식적인 제작자" 역할을 부여하세요. 자신의 재능이 수업에 기여한다고 느끼면 몰입도가 긍정적으로 바뀝니다.'
+            }
+        };
+
+        function filterCards(type) {
+            // Button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.remove('bg-blue-100', 'bg-emerald-100', 'bg-rose-100'); 
+            });
+            event.target.classList.add('active');
+
+            // Card filtering
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.parentElement.classList.remove('hidden'); // Parent Grid Item
+                    card.style.display = 'flex';
+                } else {
+                    if (card.classList.contains(type)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function showDetail(id) {
+            const data = solutions[id];
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+
+            title.innerText = data.title;
+            content.innerHTML = `
+                <div class="bg-blue-50 p-5 rounded-xl border border-blue-100 shadow-sm">
+                    <p class="text-xs text-blue-600 font-bold uppercase mb-2 tracking-wide"><i class="fa-solid fa-key mr-1"></i> 핵심 처방 (Key Prescription)</p>
+                    <p class="text-xl font-bold text-slate-800">${data.prescription}</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <p class="text-xs text-slate-500 font-bold uppercase mb-2"><i class="fa-solid fa-toolbox mr-1"></i> 추천 AI･디지털 도구</p>
+                        <p class="text-slate-700 font-medium">${data.tools}</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                        <p class="text-xs text-slate-500 font-bold uppercase mb-2"><i class="fa-solid fa-bullseye mr-1"></i> 기대 효과</p>
+                        <p class="text-slate-700 text-sm">학생의 특성을 강점으로 전환하고, 데이터 기반의 맞춤형 성장을 지원합니다.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-xs text-slate-500 font-bold uppercase mb-2 ml-1"><i class="fa-solid fa-user-check mr-1"></i> 교사의 코칭 가이드 (Touch)</p>
+                    <div class="bg-white border border-slate-200 p-5 rounded-xl shadow-sm relative overflow-hidden group">
+                        <div class="absolute top-0 left-0 w-1 h-full bg-blue-500"></div>
+                        <p class="text-slate-600 leading-relaxed text-lg">
+                            ${data.guide}
+                        </p>
+                    </div>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+            // Prevent background scrolling
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+            // Enable background scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
