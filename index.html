@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI･디지털 기반 학생 맞춤형 성장 지원 - 페르소나 카드</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Noto Sans KR', sans-serif;
+            background-color: #f8fafc;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+        .card-shadow:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .tag-badge {
+            transition: all 0.2s;
+        }
+        .filter-btn.active {
+            background-color: #2563eb;
+            color: white;
+            border-color: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen p-4 md:p-8">
+
+    <!-- Header Section -->
+    <header class="max-w-7xl mx-auto mb-10 text-center">
+        <div class="inline-block px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm font-bold mb-3">2025 터치교사단 연수 자료</div>
+        <h1 class="text-3xl md:text-5xl font-black text-slate-800 mb-4">
+            <i class="fa-solid fa-users-viewfinder text-blue-600 mr-2"></i> 학생 페르소나 카드
+        </h1>
+        <p class="text-slate-500 text-lg max-w-2xl mx-auto">
+            데이터로 진단하는 우리 교실의 10가지 학생 유형입니다.<br>
+            각 카드를 클릭하여 <strong>상세 데이터</strong>와 <strong>관찰 기록</strong>을 확인하고 지원 방안을 논의해보세요.
+        </p>
+    </header>
+
+    <!-- Filter Buttons -->
+    <div class="max-w-7xl mx-auto mb-8 flex flex-wrap justify-center gap-2">
+        <button onclick="filterCards('all')" class="filter-btn active px-6 py-2 rounded-full border-2 border-slate-300 text-slate-600 font-bold hover:bg-slate-200 transition">전체 보기</button>
+        <button onclick="filterCards('type-a')" class="filter-btn px-6 py-2 rounded-full border-2 border-blue-200 text-blue-600 font-bold hover:bg-blue-50 transition">A. 학업/참여</button>
+        <button onclick="filterCards('type-b')" class="filter-btn px-6 py-2 rounded-full border-2 border-emerald-200 text-emerald-600 font-bold hover:bg-emerald-50 transition">B. 관계/태도</button>
+        <button onclick="filterCards('type-c')" class="filter-btn px-6 py-2 rounded-full border-2 border-rose-200 text-rose-600 font-bold hover:bg-rose-50 transition">C. 정서/기술</button>
+    </div>
+
+    <!-- Cards Grid -->
+    <div id="card-grid" class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        
+        <!-- Type 1: 무기력한 관찰자 -->
+        <div class="card type-a bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">TYPE A-1</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">무기력한 관찰자</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm">
+                    <i class="fa-solid fa-eye"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#학습된무기력</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#실패두려움</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-check text-blue-500 w-4"></i> LMS 접속률: <span class="font-bold">98% (높음)</span></li>
+                            <li><i class="fa-solid fa-triangle-exclamation text-red-500 w-4"></i> 과제 제출율: <span class="font-bold text-red-600">30% (저조)</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "수업엔 항상 출석하지만 표현 활동은 거부해요. '모르겠어요'라는 말을 방패처럼 사용합니다."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('1')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 2: 초반 과열 방전형 -->
+        <div class="card type-a bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">TYPE A-2</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">초반 과열 방전형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm">
+                    <i class="fa-solid fa-battery-quarter"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#지구력부족</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#집중력저하</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-bolt text-yellow-500 w-4"></i> 초기 활동량: <span class="font-bold">상위 10%</span></li>
+                            <li><i class="fa-solid fa-arrow-trend-down text-red-500 w-4"></i> 후반 활동량: <span class="font-bold text-red-600">0% (급감)</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "도입부는 열광적이나, 깊이 있는 사고 단계에서 급격히 무너집니다."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('2')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 3: 게이미피케이션 몰입형 -->
+        <div class="card type-a bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">TYPE A-3</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">게임 몰입형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#보상의존</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#Speedy</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-medal text-yellow-500 w-4"></i> 배지 획득: <span class="font-bold">학급 1위</span></li>
+                            <li><i class="fa-solid fa-xmark text-red-500 w-4"></i> 서술형 평가: <span class="font-bold text-red-600">하위권</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "내용 이해보다는 '클리어'와 포인트 획득에만 집착하여 학습의 깊이가 얕습니다."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('3')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 4: AI 의존형 -->
+        <div class="card type-a bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-blue-600 bg-blue-100 px-2 py-1 rounded">TYPE A-4</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">AI 의존형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-blue-500 shadow-sm">
+                    <i class="fa-solid fa-robot"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#사고력저하</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#Copy&Paste</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-file-lines text-blue-500 w-4"></i> 과제 완성도: <span class="font-bold">전문가 수준</span></li>
+                            <li><i class="fa-solid fa-pen-slash text-red-500 w-4"></i> 오프라인 작문: <span class="font-bold text-red-600">수행 불가</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "생성형 AI의 답변을 그대로 복사합니다. 자신의 생각을 물으면 대답하지 못해요."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('4')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 5: 관계 지향적 산만형 -->
+        <div class="card type-b bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-emerald-50 p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded">TYPE B-1</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">관계 지향 산만형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm">
+                    <i class="fa-solid fa-comments"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#과잉소통</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#분위기메이커</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-comment-dots text-emerald-500 w-4"></i> 채팅/댓글: <span class="font-bold">압도적 1위</span></li>
+                            <li><i class="fa-solid fa-user-clock text-red-500 w-4"></i> 개인 과제 시간: <span class="font-bold text-red-600">부족</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "친구와의 소통에 에너지를 쏟느라 본인 학습을 놓칩니다. 분위기 메이커 역할."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('5')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 6: 고립된 우등생 -->
+        <div class="card type-b bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-emerald-50 p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded">TYPE B-2</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">고립된 우등생</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm">
+                    <i class="fa-solid fa-user-lock"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#협업거부</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#독단적</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-star text-emerald-500 w-4"></i> 개인 성취도: <span class="font-bold">전과목 만점</span></li>
+                            <li><i class="fa-solid fa-users-slash text-red-500 w-4"></i> 동료 평가: <span class="font-bold text-red-600">최하위</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "'혼자 하는 게 편해요'라며 공유를 거부합니다. 타인의 의견을 무시하는 경향이 있음."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('6')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 7: 보이지 않는 중위권 -->
+        <div class="card type-b bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-emerald-50 p-4 border-b border-emerald-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-emerald-600 bg-emerald-100 px-2 py-1 rounded">TYPE B-3</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">보이지 않는 아이</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-emerald-500 shadow-sm">
+                    <i class="fa-solid fa-ghost"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#관심필요</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#무색무취</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-minus text-slate-400 w-4"></i> 성적/참여: <span class="font-bold">모두 평균</span></li>
+                            <li><i class="fa-solid fa-circle-xmark text-red-500 w-4"></i> 상담/메모: <span class="font-bold text-red-600">데이터 없음</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "문제 행동도, 뛰어난 성과도 없어 관심 밖으로 밀려납니다. 존재감이 희미함."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('7')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-emerald-50 hover:text-emerald-600 hover:border-emerald-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 8: 디지털 거부형 -->
+        <div class="card type-c bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-rose-50 p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-rose-600 bg-rose-100 px-2 py-1 rounded">TYPE C-1</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">디지털 거부형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm">
+                    <i class="fa-solid fa-book"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#아날로그선호</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#기계치</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-tablet-screen-button text-slate-400 w-4"></i> 기기 활용: <span class="font-bold text-red-600">0에 수렴</span></li>
+                            <li><i class="fa-solid fa-pencil text-rose-500 w-4"></i> 지필 평가: <span class="font-bold">상위권</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "종이책과 판서를 선호하며 기기 사용에 스트레스를 받습니다. '복잡해서 싫어요'"
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('8')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 9: 완벽주의 지연형 -->
+        <div class="card type-c bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-rose-50 p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-rose-600 bg-rose-100 px-2 py-1 rounded">TYPE C-2</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">완벽주의 지연형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm">
+                    <i class="fa-solid fa-eraser"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#불안/강박</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#쓰고지우기</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-rotate-left text-slate-500 w-4"></i> 임시 저장: <span class="font-bold">50회 이상</span></li>
+                            <li><i class="fa-solid fa-clock text-red-500 w-4"></i> 제출 시간: <span class="font-bold text-red-600">마감 직전/지각</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "틀리는 것을 극도로 두려워합니다. 기준에 못 미치면 제출을 아예 포기하기도 함."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('9')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+
+        <!-- Type 10: 정서적 불안형 -->
+        <div class="card type-c bg-white rounded-2xl overflow-hidden card-shadow border border-slate-200 flex flex-col">
+            <div class="bg-rose-50 p-4 border-b border-rose-100 flex justify-between items-start">
+                <div>
+                    <span class="text-xs font-bold text-rose-600 bg-rose-100 px-2 py-1 rounded">TYPE C-3</span>
+                    <h3 class="text-xl font-bold text-slate-800 mt-1">정서적 불안형</h3>
+                </div>
+                <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center text-rose-500 shadow-sm">
+                    <i class="fa-solid fa-heart-crack"></i>
+                </div>
+            </div>
+            <div class="p-5 flex-grow">
+                <div class="mb-4">
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#감정기복</span>
+                    <span class="inline-block bg-slate-100 text-slate-600 text-xs px-2 py-1 rounded-md font-medium mb-1">#정서지원</span>
+                </div>
+                <div class="space-y-3">
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">DATA EVIDENCE</p>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li><i class="fa-solid fa-face-frown text-slate-500 w-4"></i> 감정 기록: <span class="font-bold text-red-600">우울/화남 다수</span></li>
+                            <li><i class="fa-solid fa-kit-medical text-red-500 w-4"></i> 보건실 방문: <span class="font-bold">매우 잦음</span></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="text-xs text-slate-400 font-bold uppercase mb-1">TEACHER'S NOTE</p>
+                        <p class="text-sm text-slate-600 leading-relaxed">
+                            "가정/교우 문제로 학습 집중 불가. 작은 자극에도 예민하거나 엎드려 있습니다."
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-4 bg-slate-50 border-t border-slate-100 mt-auto">
+                <button onclick="showDetail('10')" class="w-full py-2 bg-white border border-slate-300 rounded-lg text-slate-600 font-bold text-sm hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 transition">
+                    처방 가이드 보기
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Solution Guide -->
+    <div id="modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl transform transition-all p-6">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 id="modal-title" class="text-2xl font-bold text-slate-800">처방 가이드</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-slate-600 w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            
+            <div id="modal-content" class="space-y-6">
+                <!-- Dynamic Content Here -->
+            </div>
+
+            <div class="mt-8 pt-4 border-t flex justify-end">
+                <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 text-white rounded-lg hover:bg-slate-700 font-bold transition">닫기</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data for Solutions
+        const solutions = {
+            '1': {
+                title: '무기력한 관찰자를 위한 처방',
+                prescription: '심리적 장벽 낮추기 & 작은 성공',
+                tools: 'AI 튜터 (1:1 대화), 게이미피케이션 퀴즈(Kahoot)',
+                guide: '다른 학생들의 시선을 의식하지 않아도 되는 1:1 AI 튜터와의 대화로 질문의 부담을 낮춰주세요. 아주 쉬운 난이도의 퀴즈로 즉각적인 성공 경험을 주는 것이 우선입니다.'
+            },
+            '2': {
+                title: '초반 과열 방전형을 위한 처방',
+                prescription: '호흡 조절 & 마이크로 러닝',
+                tools: '타이머 도구, 짧은 영상 클립(Edpuzzle)',
+                guide: '긴 과제를 짧은 단위(5~10분)로 쪼개어 제시(Chunking)하세요. "10분 집중 후 2분 휴식"과 같은 구체적인 루틴을 디지털 타이머로 시각화하여 제공하면 좋습니다.'
+            },
+            '3': {
+                title: '게임 몰입형을 위한 처방',
+                prescription: '과정 중심 보상 & 성찰',
+                tools: '디지털 학습 일지, 배지 부여 기준 변경',
+                guide: '단순 결과(정답)가 아닌 과정(오답 노트 작성, 질문 횟수)에 포인트를 부여하세요. 빠르게 끝내는 것보다 내용을 요약하고 설명하는 퀘스트를 부여해야 합니다.'
+            },
+            '4': {
+                title: 'AI 의존형을 위한 처방',
+                prescription: '비판적 사고 & 질문 생성',
+                tools: 'ChatGPT, 뤼튼 (역질문 활용)',
+                guide: '"AI의 답변에서 틀린 점 3가지를 찾으시오" 또는 "이 답변에 대한 추가 질문을 만드시오"와 같이 AI를 결과물이 아닌 사고의 파트너로 활용하는 과제를 제시하세요.'
+            },
+            '5': {
+                title: '관계 지향 산만형을 위한 처방',
+                prescription: '사회적 에너지의 학습적 전환',
+                tools: 'Padlet (상호 피드백), FigJam',
+                guide: '잡담을 학습 토론으로 유도하세요. 친구들의 의견에 댓글을 달거나, 조별 프로젝트의 발표자(Speaker) 역할을 부여하여 소통 욕구를 학습 기여로 전환시킵니다.'
+            },
+            '6': {
+                title: '고립된 우등생을 위한 처방',
+                prescription: '협업의 가치 인식 & 리더십',
+                tools: '공동 편집 문서 (Google Docs), 멘토링 매칭',
+                guide: '지식을 나누는 것이 자신의 메타인지에 도움이 됨을 인식시킵니다. "가르치기(Teaching)" 역할을 부여하고, 팀의 성과가 개인의 평가에 연동되도록 설계하세요.'
+            },
+            '7': {
+                title: '보이지 않는 아이를 위한 처방',
+                prescription: '데이터 기반 관심 표현 & 진로 탐색',
+                tools: 'AI 진로 진단 도구, 개인화 대시보드',
+                guide: '교사가 먼저 데이터(로그)를 언급하며 다가가세요. "지난번보다 접속 시간이 늘었네?"와 같은 사소한 관심이 시작입니다. 자신의 흥미를 찾을 수 있는 다양한 진단 도구를 추천하세요.'
+            },
+            '8': {
+                title: '디지털 거부형을 위한 처방',
+                prescription: '블렌디드 & 디지로그(Digilog)',
+                tools: 'OCR 펜, 종이 질감 필름, 전자 칠판',
+                guide: '디지털을 강요하지 말고, 아날로그 활동을 디지털로 쉽게 변환하는 경험(손글씨를 폰트로 변환 등)부터 시작하세요. 기기 조작보다는 콘텐츠 자체에 흥미를 느끼게 해야 합니다.'
+            },
+            '9': {
+                title: '완벽주의 지연형을 위한 처방',
+                prescription: '초안의 허용 & 과정 공유',
+                tools: 'Notion (히스토리 기능), 임시저장 의무화',
+                guide: '완성본이 아닌 "중간 과정"을 제출하게 하고 점수를 부여하세요. "망친 초안(Shitty First Draft)"을 쓰는 시간을 수업 중에 강제로 배정하여 완벽주의의 압박을 덜어줍니다.'
+            },
+            '10': {
+                title: '정서적 불안형을 위한 처방',
+                prescription: '정서 케어 & 유연한 학습',
+                tools: '마음 챙김 앱, 감정 출석부, 익명 상담방',
+                guide: '학습보다는 정서 안정이 우선입니다. 매일 감정 상태를 체크하고, 상태가 좋지 않을 때는 학습량을 조절해주는 유연함을 보여주세요. 익명으로 고민을 털어놓을 창구가 필요합니다.'
+            }
+        };
+
+        function filterCards(type) {
+            // Button styles
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active', 'bg-blue-600', 'text-white', 'border-blue-600');
+                btn.classList.remove('bg-blue-100', 'bg-emerald-100', 'bg-rose-100'); // Clean up specific hover tints if stick
+            });
+            event.target.classList.add('active');
+
+            // Card filtering
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.style.display = 'flex';
+                } else {
+                    if (card.classList.contains(type)) {
+                        card.style.display = 'flex';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                }
+            });
+        }
+
+        function showDetail(id) {
+            const data = solutions[id];
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+
+            title.innerText = data.title;
+            content.innerHTML = `
+                <div class="bg-blue-50 p-4 rounded-xl mb-4 border border-blue-100">
+                    <p class="text-xs text-blue-500 font-bold uppercase mb-1">KEY PRESCRIPTION</p>
+                    <p class="text-lg font-bold text-blue-800">${data.prescription}</p>
+                </div>
+                <div class="mb-4">
+                    <p class="text-sm text-slate-400 font-bold uppercase mb-1"><i class="fa-solid fa-toolbox mr-1"></i> 추천 도구</p>
+                    <p class="text-slate-700 font-medium bg-slate-100 inline-block px-3 py-1 rounded-lg">${data.tools}</p>
+                </div>
+                <div>
+                    <p class="text-sm text-slate-400 font-bold uppercase mb-2"><i class="fa-solid fa-user-check mr-1"></i> 교사의 코칭 가이드</p>
+                    <p class="text-slate-600 leading-relaxed bg-white border border-slate-200 p-4 rounded-xl shadow-sm">
+                        ${data.guide}
+                    </p>
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('modal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
