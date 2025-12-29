@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>터치 교사단: 심화 데이터 분석 대시보드</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Pretendard', sans-serif;
+            background-color: #f8fafc;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .progress-bar {
+            transition: width 1s ease-in-out;
+        }
+    </style>
+</head>
+<body class="text-slate-900">
+
+    <div class="min-h-screen p-4 md:p-8">
+        <!-- Header -->
+        <header class="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-2xl font-bold flex items-center gap-2 text-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bar-chart-3"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>
+                    터치 교사단: 심화 데이터 분석 대시보드
+                </h1>
+                <p class="text-slate-500 mt-1">중·고교 학급 운영 데이터 (학습 이력 및 상호작용 포함)</p>
+            </div>
+            <div id="caseTabs" class="flex bg-white rounded-lg shadow-sm p-1 border border-slate-200">
+                <!-- Case buttons will be injected here -->
+            </div>
+        </header>
+
+        <main id="dashboardContent" class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6 fade-in">
+            <!-- Content will be injected by JavaScript -->
+        </main>
+
+        <!-- Footer Info -->
+        <footer class="max-w-7xl mx-auto mt-8 flex flex-wrap justify-center gap-4 md:gap-8 text-[11px] text-slate-400 border-t pt-8">
+            <span class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> 실시간 로그 수집 중</span>
+            <span class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> 동료 상호작용 지수 활성화</span>
+            <span class="flex items-center gap-1"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 1 10 10c0 5.523-4.477 10-10 10S2 17.523 2 12A10 10 0 0 1 12 2Z"/><path d="M9 12a3 3 0 1 0 6 0 3 3 0 1 0-6 0Z"/><path d="M12 9v1"/><path d="M12 14v1"/><path d="M15 12h-1"/><path d="M10 12H9"/></svg> AI 진단 정확도 94.8%</span>
+        </footer>
+    </div>
+
+    <script>
+        const cases = [
+            {
+                id: 1,
+                name: "김민수",
+                type: "소극적 고성취형",
+                summary: "학업 성취는 최상위권이나 사회적 상호작용 데이터가 매우 낮음",
+                quantitative: [
+                    { label: "평가 성취도", value: 98, color: "bg-indigo-500" },
+                    { label: "과제 제출 속도", value: 95, color: "bg-blue-500" },
+                    { label: "동료 피드백 참여", value: 12, color: "bg-rose-400" },
+                    { label: "질문 게시 빈도", value: 5, color: "bg-amber-400" }
+                ],
+                details: {
+                    avgStudyTime: "145분/일",
+                    hintUsage: "2%",
+                    peerReaction: "낮음",
+                    lateSubmission: "0건"
+                },
+                qualitative: [
+                    { date: "2025-03-10", note: "개별 과제는 완벽하게 수행하나, 모둠 활동 시 의견을 내지 않고 관찰만 함." },
+                    { date: "2025-03-20", note: "정서 설문에서 '혼자 하는 공부가 편하다'는 응답을 반복적으로 보임." }
+                ],
+                aiInsight: "민수 학생은 지적 호기심은 충족되고 있으나 '사회적 실재감'이 부족합니다. 강제로 발표시키기보다 비대면 협업 도구의 익명 기능을 활용해 의견을 먼저 노출하는 전략이 필요합니다."
+            },
+            {
+                id: 2,
+                name: "이지원",
+                type: "열정적 저성취형",
+                summary: "활동 의욕은 높으나 힌트 의존도가 높고 인지적 과부하 상태",
+                quantitative: [
+                    { label: "수업 참여도", value: 92, color: "bg-emerald-500" },
+                    { label: "동료 피드백 참여", value: 88, color: "bg-rose-400" },
+                    { label: "과제 완수율", value: 45, color: "bg-blue-500" },
+                    { label: "힌트 사용률", value: 75, color: "bg-amber-400" }
+                ],
+                details: {
+                    avgStudyTime: "180분/일",
+                    hintUsage: "75%",
+                    peerReaction: "매우 높음",
+                    lateSubmission: "5건"
+                },
+                qualitative: [
+                    { date: "2025-03-14", note: "디지털 툴의 화려한 효과에 집중하느라 과제 본문을 완성하지 못함." },
+                    { date: "2025-03-22", note: "루브릭 평가 결과 '내용의 체계성' 부분에서 지속적으로 최저점을 기록함." }
+                ],
+                aiInsight: "지원 학생은 학습 동기는 충분하나 '인지적 과부하'를 겪고 있습니다. 생성형 AI를 활용하여 복잡한 지시문을 단계별로 쪼개어 제공하고, 템플릿 기반의 활동지를 지원해야 합니다."
+            },
+            {
+                id: 3,
+                name: "박준호",
+                type: "주의산만 중도포기형",
+                summary: "학습 초기 이탈률이 높고 기초 문해력 부족으로 인한 무기력 관찰",
+                quantitative: [
+                    { label: "리소스 체류 시간", value: 15, color: "bg-slate-400" },
+                    { label: "로그인 빈도", value: 25, color: "bg-indigo-400" },
+                    { label: "오답 수정률", value: 10, color: "bg-red-400" },
+                    { label: "과제 제출 속도", value: 5, color: "bg-blue-500" }
+                ],
+                details: {
+                    avgStudyTime: "20분/일",
+                    hintUsage: "0% (무응답)",
+                    peerReaction: "없음",
+                    lateSubmission: "12건"
+                },
+                qualitative: [
+                    { date: "2025-03-05", note: "로그인 후 5분 만에 다른 탭으로 전환하는 모습이 감지됨." },
+                    { date: "2025-03-18", note: "기초 문해력 평가에서 또래 대비 낮은 수준을 보이며 학습 무기력증 관찰됨." }
+                ],
+                aiInsight: "준호 학생은 '실패에 대한 두려움'으로 인한 회피 반응이 강합니다. 즉각적인 보상이 주어지는 게이미피케이션 요소를 도입하고, 아주 낮은 수준의 성공 경험을 반복하게 해야 합니다."
+            }
+        ];
+
+        let currentIdx = 0;
+        let showInsight = false;
+
+        function renderTabs() {
+            const container = document.getElementById('caseTabs');
+            container.innerHTML = cases.map((c, idx) => `
+                <button 
+                    onclick="selectCase(${idx})"
+                    class="px-4 py-2 rounded-md text-sm font-semibold transition-all ${currentIdx === idx ? 'bg-indigo-600 text-white shadow-md' : 'text-slate-600 hover:bg-slate-100'}"
+                >
+                    CASE ${c.id}: ${c.name}
+                </button>
+            `).join('');
+        }
+
+        function selectCase(idx) {
+            currentIdx = idx;
+            showInsight = false;
+            renderTabs();
+            renderDashboard();
+        }
+
+        function toggleInsight() {
+            showInsight = !showInsight;
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            const c = cases[currentIdx];
+            const container = document.getElementById('dashboardContent');
+            
+            container.innerHTML = `
+                <!-- Left Column -->
+                <div class="lg:col-span-1 flex flex-col gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            </div>
+                            <div>
+                                <h2 class="text-xl font-bold">${c.name}</h2>
+                                <span class="inline-block px-2 py-1 bg-amber-100 text-amber-700 text-[10px] font-bold rounded uppercase tracking-wider mt-1">
+                                    ${c.type}
+                                </span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-600 leading-relaxed border-t pt-4">
+                            ${c.summary}
+                        </p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="m3 11 18-5v12L3 14v-3z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+                            심화 학습 지표
+                        </h3>
+                        ${c.quantitative.map(q => `
+                            <div class="mb-4">
+                                <div class="flex justify-between mb-1">
+                                    <span class="text-xs font-medium text-gray-600">${q.label}</span>
+                                    <span class="text-xs font-bold text-gray-900">${q.value}%</span>
+                                </div>
+                                <div class="w-full bg-gray-100 rounded-full h-1.5">
+                                    <div class="h-1.5 rounded-full ${q.color} progress-bar" style="width: ${q.value}%"></div>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Middle Column -->
+                <div class="lg:col-span-1 flex flex-col gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="m3 3 3 9 2-2 4 4 2-2 4 4 2-2"/></svg>
+                            로그 데이터 상세보기
+                        </h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-[10px] text-slate-500 flex items-center gap-1 mb-1">평균 체류 시간</p>
+                                <p class="text-lg font-bold text-slate-800">${c.details.avgStudyTime}</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-[10px] text-slate-500 flex items-center gap-1 mb-1">힌트 사용률</p>
+                                <p class="text-lg font-bold text-slate-800">${c.details.hintUsage}</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-[10px] text-slate-500 flex items-center gap-1 mb-1">동료 반응도</p>
+                                <p class="text-lg font-bold text-slate-800">${c.details.peerReaction}</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                                <p class="text-[10px] text-slate-500 flex items-center gap-1 mb-1">제출 지연</p>
+                                <p class="text-lg font-bold text-rose-600">${c.details.lateSubmission}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex-1">
+                        <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-600"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            누적 관찰 데이터
+                        </h3>
+                        <div class="space-y-4">
+                            ${c.qualitative.map(item => `
+                                <div class="bg-slate-50 p-3 rounded-lg border-l-4 border-indigo-400">
+                                    <span class="text-[10px] font-bold text-indigo-500 block mb-1">${item.date}</span>
+                                    <p class="text-xs text-slate-700 leading-relaxed">"${item.note}"</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (AI Insight) -->
+                <div class="lg:col-span-1">
+                    <div class="bg-gradient-to-br from-indigo-700 to-violet-800 p-6 rounded-2xl shadow-lg text-white h-full relative overflow-hidden">
+                        <h3 class="text-lg font-bold mb-6 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-200"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                            AI 성장 코치 인사이트
+                        </h3>
+                        
+                        <div id="insightTarget">
+                            ${!showInsight ? `
+                                <div class="flex flex-col items-center justify-center h-64 bg-white/5 backdrop-blur-sm rounded-xl border border-white/10 p-6 text-center">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-white/30 mb-4"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                    <p class="text-sm text-indigo-100 mb-6 font-light">
+                                        상세 지표와 로그 데이터를<br/>모두 분석하셨나요?
+                                    </p>
+                                    <button 
+                                        onclick="toggleInsight()"
+                                        class="flex items-center gap-2 bg-white text-indigo-700 px-6 py-3 rounded-full font-bold text-sm shadow-xl hover:scale-105 transition-transform"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                                        분석 결과 확인
+                                    </button>
+                                </div>
+                            ` : `
+                                <div class="animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                    <div class="bg-white/10 backdrop-blur-md rounded-xl p-5 border border-white/20 mb-8">
+                                        <p class="text-sm leading-relaxed italic text-indigo-50">
+                                            "${c.aiInsight}"
+                                        </p>
+                                    </div>
+                                    <div class="space-y-3">
+                                        <p class="text-[10px] font-semibold text-indigo-200 uppercase tracking-widest mb-2">추천 데이터 코칭</p>
+                                        <div class="bg-white/10 p-3 rounded-lg flex items-center gap-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                            <span class="text-xs">데이터 기반 개별 학습 설계</span>
+                                        </div>
+                                        <div class="bg-white/10 p-3 rounded-lg flex items-center gap-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-emerald-400"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                                            <span class="text-xs">사회적 실재감 강화 활동</span>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onclick="toggleInsight()"
+                                        class="mt-8 text-[10px] text-indigo-300 hover:text-white underline w-full text-center"
+                                    >
+                                        데이터 다시 분석하기
+                                    </button>
+                                </div>
+                            `}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Initialize
+        renderTabs();
+        renderDashboard();
+    </script>
+</body>
+</html>
