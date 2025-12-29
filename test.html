@@ -1,1 +1,450 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOUCH 학생 성장 지원 시뮬레이터 (12인 버전)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Pretendard', sans-serif; }
+        .fade-in { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .step-active { background-color: #dbeafe; color: #1d4ed8; }
+        .step-inactive { color: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen">
 
+    <div id="app" class="max-w-6xl mx-auto p-4 md:p-8">
+        <!-- Header -->
+        <header class="mb-8 flex flex-col md:flex-row items-center justify-between border-b pb-4 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-slate-800 flex items-center gap-2">
+                    <i data-lucide="brain-circuit" class="text-blue-600"></i>
+                    TOUCH 학생 성장 지원 시뮬레이터 v2.5
+                </h1>
+                <p class="text-slate-500 text-sm">데이터 기반 진단-처방-성장 프로세스 실습 (12가지 페르소나)</p>
+            </div>
+            <div id="progress-tracker" class="flex gap-2 text-[10px] md:text-xs font-semibold bg-white p-1 rounded-lg border">
+                <span class="px-2 md:px-3 py-1 rounded step-item" data-step="1">데이터 분석</span>
+                <span class="px-2 md:px-3 py-1 rounded step-item" data-step="2">페르소나 진단</span>
+                <span class="px-2 md:px-3 py-1 rounded step-item" data-step="3">맞춤 처방</span>
+                <span class="px-2 md:px-3 py-1 rounded step-item" data-step="4">성장 확인</span>
+            </div>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <!-- Sidebar: Student List -->
+            <aside class="lg:col-span-3 space-y-4">
+                <div class="bg-white p-4 rounded-xl shadow-sm border max-h-[700px] overflow-y-auto">
+                    <h3 class="text-sm font-bold text-slate-400 mb-3 uppercase flex items-center gap-2 sticky top-0 bg-white pb-2">
+                        <i data-lucide="users" class="w-4 h-4"></i> 우리 반 학생 (12명)
+                    </h3>
+                    <div id="student-list" class="space-y-2">
+                        <!-- Student buttons will be injected here -->
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Main Display Area -->
+            <section id="main-content" class="lg:col-span-9">
+                <div class="bg-white h-[600px] rounded-2xl shadow-sm border border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400">
+                    <i data-lucide="search" class="w-12 h-12 mb-4 opacity-20"></i>
+                    <p>분석할 학생을 왼쪽 리스트에서 선택해주세요.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="mt-12 pb-8 text-center text-slate-400 text-xs">
+            © 2025-2026 터치교사단(T.O.U.C.H.) | 디지털 기반 교육 혁신 전문가 과정 자료
+        </footer>
+    </div>
+
+    <!-- Templates & Scripts -->
+    <script>
+        const PERSONA_DATA = {
+            "A-1": {
+                id: "A-1", name: "무기력한 관찰자", category: "학습/인지",
+                quantitative: ["콘텐츠 이수율: 12%", "평균 반응 속도: 350초", "첫 클릭 대기: 15분"],
+                qualitative: ["어려운 문제 직면 시 기기를 덮음", "자존감 저하 호소"],
+                prescriptions: { ai: ["동기 유발 챗봇", "디지털 배지 시스템"], human: ["작은 성공 경험 칭찬", "1:1 정서 상담"] },
+                growth: "콘텐츠 이수율 45% 향상, 자발적 학습 시도 증가"
+            },
+            "A-2": {
+                id: "A-2", name: "초반 과열 방전형", category: "학습/인지",
+                quantitative: ["시작 10분 활동량: 상위 5%", "후반 활동량: 하위 10%", "화면 전환: 후반 20회↑"],
+                qualitative: ["초반엔 열정적이나 심화 과제 시 포기", "지구력 부족"],
+                prescriptions: { ai: ["단계별 목표 알림 도구", "주의 집중 유도 알람"], human: ["과업 세분화(Chunking) 지도", "중간 체크인 피드백"] },
+                growth: "과업 완수율 30% 증가, 집중 유지 시간 연장"
+            },
+            "A-3": {
+                id: "A-3", name: "게임 몰입형", category: "학습/인지",
+                quantitative: ["포인트 획득: 학급 1위", "텍스트 체류 시간: 3초 미만", "오답 재시도율: 매우 낮음"],
+                qualitative: ["내용은 안 읽고 버튼만 클릭", "보상에만 집착함"],
+                prescriptions: { ai: ["내용 확인 퀴즈 필수화", "성찰 일기 디지털 도구"], human: ["학습 과정 중심 보상 설계", "메타인지 질문 던지기"] },
+                growth: "오답 재시도율 50% 증가, 학습 내용 이해도 향상"
+            },
+            "A-4": {
+                id: "A-4", name: "AI 의존형", category: "학습/인지",
+                quantitative: ["붙여넣기 비율: 95%", "작업 시간: 10초 미만", "문장 복잡도: 전문가급"],
+                qualitative: ["구술 질문 시 대답 못 함", "AI 답변 복사 정황 뚜렷"],
+                prescriptions: { ai: ["마인드맵 구조화 도구", "논리 구조 분석기"], human: ["AI 활용 윤리 교육", "사고 과정 설명 요구"] },
+                growth: "자기 생각 표현 비율 60% 달성, 비판적 사고력 향상"
+            },
+            "A-5": {
+                id: "A-5", name: "질문 폭격기", category: "학습/인지",
+                quantitative: ["질문/댓글 수: 상위 1%", "검색 키워드: 주제 외 심화어", "진도 달성률: 하위권"],
+                qualitative: ["수업 흐름과 무관한 '만약에' 질문", "지적 호기심 과잉"],
+                prescriptions: { ai: ["심화 탐구 AI 튜터링", "질문 아카이브 플랫폼"], human: ["질문 우선순위 정하기", "수업 후 별도 탐구 시간 부여"] },
+                growth: "학습 진도율 정상화, 질문의 질적 수준 고도화"
+            },
+            "B-1": {
+                id: "B-1", name: "관계 지향 산만형", category: "관계/태도",
+                quantitative: ["채팅/댓글 수: 압도적 1위", "개인 과제 미달", "협업 도구 기여: 반응 위주"],
+                qualitative: ["친구 반응 살피느라 공부 못 함", "채팅방 분위기 메이커"],
+                prescriptions: { ai: ["협업 로그 시각화 도구", "집중 시간 타이머"], human: ["협업 시 명확한 역할 부여", "친사회적 리더십 교육"] },
+                growth: "개인 과제 수행률 개선, 팀 내 생산적 기여 증가"
+            },
+            "B-2": {
+                id: "B-2", name: "고립된 우등생", category: "관계/태도",
+                quantitative: ["개인 성취도: 만점", "타인 글 수정 비율: 70%", "공동 편집 독점 포착"],
+                qualitative: ["팀원 무시 및 독단적 처리", "협업 거부 경향"],
+                prescriptions: { ai: ["상호 피드백 플랫폼", "역할 분배 자동화 도구"], human: ["타인 의견 존중 교육", "협업 과정 중심 평가"] },
+                growth: "동료 평가 점수 상승, 타인 기여 수용 태도 형성"
+            },
+            "B-3": {
+                id: "B-3", name: "보이지 않는 아이", category: "관계/태도",
+                quantitative: ["성적/과제: 완벽한 평균", "발표/질문 횟수: 0회", "교사 상담 기록: 무"],
+                qualitative: ["사고 안 치지만 존재감 없음", "조용한 순응주의자"],
+                prescriptions: { ai: ["익명 질문/답변 게시판", "개인화 추천 학습 경로"], human: ["관심 어린 관찰 기록", "작은 역할 부여 및 격려"] },
+                growth: "자발적 상호작용 로그 발생, 학습 자아 효능감 향상"
+            },
+            "C-1": {
+                id: "C-1", name: "디지털 거부형", category: "정서/기술",
+                quantitative: ["기기 스크린타임: 0에 수렴", "지필 평가: 상위권", "리터러시 기초 점수: 미달"],
+                qualitative: ["디지털 도구에 대한 막연한 공포", "종이 선호"],
+                prescriptions: { ai: ["쉬운 조작 중심 앱", "음성 명령 지원 도구"], human: ["아날로그-디지털 병행 활동", "기기 조작 1:1 도우미 배치"] },
+                growth: "디지털 도구 친숙도 향상, 하이브리드 학습 참여"
+            },
+            "C-2": {
+                id: "C-2", name: "완벽주의 지연형", category: "정서/기술",
+                quantitative: ["수정 로그: 70회 이상", "제출 시각: 마감 직전", "백스페이스 사용 빈번"],
+                qualitative: ["썼다 지웠다 무한 반복", "제시간에 못 끝낼까 봐 불안"],
+                prescriptions: { ai: ["AI 초안 생성 도구", "프로젝트 관리 대시보드"], human: ["과정 중심 피드백", "마감 시간 단계적 설정"] },
+                growth: "제출 시간 안정화, 과업 완수 스트레스 감소"
+            },
+            "C-3": {
+                id: "C-3", name: "정서적 불안형", category: "정서/기술",
+                quantitative: ["감정 출석부: '우울/화남' 빈번", "보건실 방문: 주 3회", "학습 불참 기록: 불규칙"],
+                qualitative: ["작은 자극에도 예민하게 반응", "가정/교우 문제 노출"],
+                prescriptions: { ai: ["감정 기록/분석 AI", "심리적 안정 유도 명상 앱"], human: ["매일 아침 감정 체크인", "위 클래스 연계 상담"] },
+                growth: "정서적 안정도 향상, 학습 참여 지속성 회복"
+            },
+            "C-4": {
+                id: "C-4", name: "디지털 창작자", category: "정서/기술",
+                quantitative: ["편집 앱 사용: 학급 1위", "과제 퀄리티: 전문가급", "타이핑 속도: 매우 빠름"],
+                qualitative: ["수업 중 몰래 영상 편집", "교과 내용보다 도구에 집착"],
+                prescriptions: { ai: ["전문 창작 프로젝트 수행", "디지털 포트폴리오 사이트"], human: ["기술적 리더십 역할 부여", "창작 역량의 교과 연결 지도"] },
+                growth: "교과 학습 참여도 개선, 고도화된 학습 결과물 산출"
+            }
+        };
+
+        const STUDENTS = [
+            { id: 1, name: "김학습", personaKey: "A-1" },
+            { id: 2, name: "이열정", personaKey: "A-2" },
+            { id: 3, name: "박게임", personaKey: "A-3" },
+            { id: 4, name: "최인공", personaKey: "A-4" },
+            { id: 5, name: "정질문", personaKey: "A-5" },
+            { id: 6, name: "조수다", personaKey: "B-1" },
+            { id: 7, name: "유독불", personaKey: "B-2" },
+            { id: 8, name: "성투명", personaKey: "B-3" },
+            { id: 9, name: "강종이", personaKey: "C-1" },
+            { id: 10, name: "신완벽", personaKey: "C-2" },
+            { id: 11, name: "한불안", personaKey: "C-3" },
+            { id: 12, name: "오편집", personaKey: "C-4" }
+        ];
+
+        let state = {
+            selectedStudent: null,
+            currentStep: 1,
+            diagnosis: null,
+            prescribedAI: [],
+            prescribedHuman: []
+        };
+
+        function init() {
+            renderStudentList();
+            lucide.createIcons();
+        }
+
+        function renderStudentList() {
+            const list = document.getElementById('student-list');
+            list.innerHTML = STUDENTS.map(s => `
+                <button onclick="selectStudent(${s.id})" 
+                    id="student-btn-${s.id}"
+                    class="w-full p-3 rounded-lg text-left transition-all flex items-center justify-between border bg-white text-slate-700 hover:bg-slate-50">
+                    <div class="flex flex-col">
+                        <span class="font-bold text-sm">${s.name} 학생</span>
+                        <span class="text-[10px] text-slate-400">데이터 로그 수신됨</span>
+                    </div>
+                    <i data-lucide="arrow-right" class="student-icon w-4 h-4 opacity-0 transition-opacity"></i>
+                </button>
+            `).join('');
+        }
+
+        function selectStudent(id) {
+            state.selectedStudent = STUDENTS.find(s => s.id === id);
+            state.currentStep = 1;
+            state.diagnosis = null;
+            state.prescribedAI = [];
+            state.prescribedHuman = [];
+            
+            STUDENTS.forEach(s => {
+                const btn = document.getElementById(`student-btn-${s.id}`);
+                if (!btn) return;
+                const icon = btn.querySelector('.student-icon');
+                if (s.id === id) {
+                    btn.className = "w-full p-3 rounded-lg text-left transition-all flex items-center justify-between border bg-blue-600 text-white border-blue-600 shadow-md";
+                    if (icon) icon.style.opacity = "1";
+                } else {
+                    btn.className = "w-full p-3 rounded-lg text-left transition-all flex items-center justify-between border bg-white text-slate-700 hover:bg-slate-50";
+                    if (icon) icon.style.opacity = "0";
+                }
+            });
+
+            renderStep();
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.step-item').forEach(item => {
+                const step = parseInt(item.dataset.step);
+                if (step <= state.currentStep) {
+                    item.classList.add('step-active');
+                    item.classList.remove('step-inactive');
+                } else {
+                    item.classList.remove('step-active');
+                    item.classList.add('step-inactive');
+                }
+            });
+        }
+
+        function renderStep() {
+            updateProgress();
+            const main = document.getElementById('main-content');
+            if (!state.selectedStudent) return;
+            
+            const p = PERSONA_DATA[state.selectedStudent.personaKey];
+
+            if (state.currentStep === 1) {
+                main.innerHTML = `
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md border fade-in">
+                        <div class="flex justify-between items-start mb-6">
+                            <h2 class="text-xl font-bold flex items-center gap-2">
+                                <i data-lucide="line-chart" class="text-blue-500"></i> [Step 1] 데이터 분석
+                            </h2>
+                            <span class="bg-blue-50 text-blue-700 text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wider border border-blue-100">Student ID: ${state.selectedStudent.id}</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div>
+                                <div class="flex items-center gap-2 text-blue-700 font-semibold mb-3">
+                                    <i data-lucide="zap" class="w-4 h-4"></i> 정량적 데이터 (LMS 로그)
+                                </div>
+                                <div class="space-y-2">
+                                    ${p.quantitative.map(q => `<div class="bg-blue-50 p-3 rounded-lg border border-blue-100 text-sm text-blue-900 flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-blue-400"></div>${q}</div>`).join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-2 text-amber-700 font-semibold mb-3">
+                                    <i data-lucide="book-open" class="w-4 h-4"></i> 정성적 데이터 (관찰 메모)
+                                </div>
+                                <div class="space-y-2">
+                                    ${p.qualitative.map(q => `<div class="bg-amber-50 p-3 rounded-lg border border-amber-100 text-sm text-amber-900 flex items-center gap-3"><div class="w-1.5 h-1.5 rounded-full bg-amber-400"></div>"${q}"</div>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <button onclick="goToStep(2)" class="w-full py-4 bg-slate-800 text-white rounded-xl font-bold hover:bg-slate-900 transition-colors shadow-lg">이 데이터를 바탕으로 진단하기</button>
+                    </div>
+                `;
+            } else if (state.currentStep === 2) {
+                main.innerHTML = `
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md border fade-in">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
+                            <i data-lucide="alert-circle" class="text-purple-500"></i> [Step 2] 페르소나 진단
+                        </h2>
+                        <p class="mb-6 text-slate-600 text-sm">데이터가 가리키는 <strong>${state.selectedStudent.name}</strong> 학생의 정확한 유형을 선택하세요.</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 mb-8">
+                            ${Object.values(PERSONA_DATA).map(item => `
+                                <button onclick="diagnose('${item.id}')" 
+                                    class="p-3 rounded-xl border-2 text-left transition-all ${state.diagnosis === item.id ? 'border-purple-600 bg-purple-50 shadow-sm' : 'border-slate-100 hover:border-slate-200'}">
+                                    <div class="text-[9px] font-bold text-slate-400 mb-1">${item.category}</div>
+                                    <div class="text-xs font-bold leading-tight ${state.diagnosis === item.id ? 'text-purple-700' : 'text-slate-700'}">${item.name}</div>
+                                </button>
+                            `).join('')}
+                        </div>
+                        <div id="diagnosis-feedback"></div>
+                        <button id="step2-next" disabled onclick="goToStep(3)" class="w-full py-4 rounded-xl font-bold transition-colors bg-slate-200 text-slate-400 cursor-not-allowed">처방 수립 단계로 이동</button>
+                    </div>
+                `;
+                if(state.diagnosis) checkDiagnosis(state.diagnosis);
+            } else if (state.currentStep === 3) {
+                main.innerHTML = `
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-md border fade-in">
+                        <h2 class="text-xl font-bold mb-6 flex items-center gap-2 text-pink-600">
+                            <i data-lucide="heart" class="w-6 h-6"></i> [Step 3] 맞춤형 성장 지원 처방
+                        </h2>
+                        <div class="space-y-6">
+                            <div>
+                                <h4 class="font-bold text-slate-700 mb-3 text-sm flex items-center gap-2"><i data-lucide="layout" class="w-4 h-4 text-pink-500"></i> AI·디지털 기반 처방 (1개 선택)</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    ${p.prescriptions.ai.map(item => `
+                                        <label class="p-4 border rounded-xl bg-slate-50 flex items-center gap-3 cursor-pointer hover:bg-white transition-colors">
+                                            <input type="checkbox" onchange="togglePrescription('ai', '${item}')" class="w-5 h-5 accent-pink-500" ${state.prescribedAI.includes(item) ? 'checked' : ''}>
+                                            <span class="text-sm font-medium text-slate-800">${item}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-slate-700 mb-3 text-sm flex items-center gap-2"><i data-lucide="message-square" class="w-4 h-4 text-blue-500"></i> 교사의 휴먼 터치 전략 (1개 선택)</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                    ${p.prescriptions.human.map(item => `
+                                        <label class="p-4 border rounded-xl bg-slate-50 flex items-center gap-3 cursor-pointer hover:bg-white transition-colors">
+                                            <input type="checkbox" onchange="togglePrescription('human', '${item}')" class="w-5 h-5 accent-pink-500" ${state.prescribedHuman.includes(item) ? 'checked' : ''}>
+                                            <span class="text-sm font-medium text-slate-800">${item}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <button id="step3-next" disabled onclick="goToStep(4)" class="mt-8 w-full py-4 rounded-xl font-bold transition-colors bg-slate-200 text-slate-400 cursor-not-allowed">최종 성장 결과 확인</button>
+                    </div>
+                `;
+                checkPrescriptionButtons();
+            } else if (state.currentStep === 4) {
+                main.innerHTML = `
+                    <div class="bg-white p-6 md:p-8 rounded-2xl shadow-xl border fade-in text-center">
+                        <div class="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
+                            <i data-lucide="award" class="text-green-600 w-10 h-10"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-800 italic mb-6">"${state.selectedStudent.name} 학생의 성장을 축하합니다!"</h2>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 text-left">
+                            <div class="bg-slate-50 p-6 rounded-2xl border">
+                                <h4 class="text-xs font-bold text-slate-400 mb-4 uppercase tracking-widest">실행된 처방 목록</h4>
+                                <ul class="space-y-3">
+                                    ${[...state.prescribedAI, ...state.prescribedHuman].map(item => `
+                                        <li class="flex items-center gap-2 text-sm font-semibold text-slate-700"><i data-lucide="check-circle-2" class="w-4 h-4 text-green-500"></i> ${item}</li>
+                                    `).join('')}
+                                </ul>
+                            </div>
+                            <div class="bg-gradient-to-br from-blue-600 to-indigo-700 p-6 rounded-2xl text-white shadow-lg">
+                                <h4 class="text-xs font-bold opacity-70 mb-4 uppercase tracking-widest">변화된 성장 지표</h4>
+                                <p class="text-lg font-bold leading-snug">${p.growth}</p>
+                                <div class="mt-6 h-1.5 bg-blue-300 bg-opacity-30 rounded-full overflow-hidden">
+                                    <div class="w-full h-full bg-white transition-all duration-1000" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 p-6 rounded-xl border border-amber-200 mb-8 text-left">
+                            <h4 class="font-bold text-amber-800 mb-2 flex items-center gap-2 uppercase text-[10px] tracking-tighter">
+                                <i data-lucide="clipboard-check" class="w-4 h-4"></i> 교사 성장 가이드
+                            </h4>
+                            <p class="text-amber-900 text-sm leading-relaxed">
+                                <strong>${p.name}</strong> 유형의 아이들은 정형화된 학습보다는 자신의 강점이 데이터로 증명될 때 큰 동기를 얻습니다. 선생님의 처방은 기술적 지원과 정서적 유대감을 동시에 자극하여 학습자의 개별 성장 경로를 성공적으로 설계했습니다.
+                            </p>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <button onclick="resetSimulation()" class="flex-1 py-4 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200">다음 학생 분석</button>
+                            <button onclick="window.print()" class="flex-1 py-4 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 shadow-lg flex items-center justify-center gap-2">
+                                <i data-lucide="printer" class="w-4 h-4"></i> 성장 리포트
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }
+            lucide.createIcons();
+        }
+
+        function goToStep(num) {
+            state.currentStep = num;
+            renderStep();
+        }
+
+        function diagnose(id) {
+            state.diagnosis = id;
+            const nextBtn = document.getElementById('step2-next');
+            if (nextBtn) nextBtn.disabled = (id !== state.selectedStudent.personaKey);
+            renderStep();
+        }
+
+        function checkDiagnosis(id) {
+            const feedback = document.getElementById('diagnosis-feedback');
+            const nextBtn = document.getElementById('step2-next');
+            if (!feedback || !nextBtn) return;
+            
+            const isCorrect = id === state.selectedStudent.personaKey;
+
+            if (isCorrect) {
+                feedback.innerHTML = `<div class="bg-green-50 p-4 rounded-xl border border-green-200 mb-6 text-green-800 text-sm font-medium flex items-center gap-2 animate-in zoom-in-95"><i data-lucide="check" class="w-4 h-4"></i> 정확한 진단입니다! 다음 단계에서 맞춤 처방을 수립하세요.</div>`;
+                nextBtn.disabled = false;
+                nextBtn.className = "w-full py-4 rounded-xl font-bold transition-colors bg-purple-600 text-white hover:bg-purple-700 shadow-lg";
+            } else {
+                feedback.innerHTML = `<div class="bg-red-50 p-4 rounded-xl border border-red-200 mb-6 text-red-800 text-sm font-medium flex items-center gap-2 animate-in zoom-in-95"><i data-lucide="x" class="w-4 h-4"></i> 선택하신 페르소나는 제시된 데이터 로그와 일치하지 않습니다. 다시 확인해주세요.</div>`;
+                nextBtn.disabled = true;
+                nextBtn.className = "w-full py-4 rounded-xl font-bold transition-colors bg-slate-200 text-slate-400 cursor-not-allowed";
+            }
+            lucide.createIcons();
+        }
+
+        function togglePrescription(type, item) {
+            if (type === 'ai') {
+                if (state.prescribedAI.includes(item)) state.prescribedAI = state.prescribedAI.filter(i => i !== item);
+                else state.prescribedAI.push(item);
+            } else {
+                if (state.prescribedHuman.includes(item)) state.prescribedHuman = state.prescribedHuman.filter(i => i !== item);
+                else state.prescribedHuman.push(item);
+            }
+            checkPrescriptionButtons();
+        }
+
+        function checkPrescriptionButtons() {
+            const nextBtn = document.getElementById('step3-next');
+            if (!nextBtn) return;
+            
+            if (state.prescribedAI.length > 0 && state.prescribedHuman.length > 0) {
+                nextBtn.disabled = false;
+                nextBtn.className = "mt-8 w-full py-4 rounded-xl font-bold transition-colors bg-pink-600 text-white hover:bg-pink-700 shadow-lg";
+            } else {
+                nextBtn.disabled = true;
+                nextBtn.className = "mt-8 w-full py-4 rounded-xl font-bold transition-colors bg-slate-200 text-slate-400 cursor-not-allowed";
+            }
+        }
+
+        function resetSimulation() {
+            state.selectedStudent = null;
+            state.currentStep = 1;
+            state.diagnosis = null;
+            state.prescribedAI = [];
+            state.prescribedHuman = [];
+            renderStudentList();
+            document.getElementById('main-content').innerHTML = `
+                <div class="bg-white h-[600px] rounded-2xl shadow-sm border border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400">
+                    <i data-lucide="search" class="w-12 h-12 mb-4 opacity-20"></i>
+                    <p>분석할 학생을 왼쪽 리스트에서 선택해주세요.</p>
+                </div>
+            `;
+            updateProgress();
+            lucide.createIcons();
+        }
+
+        window.onload = init;
+    </script>
+</body>
+</html>
